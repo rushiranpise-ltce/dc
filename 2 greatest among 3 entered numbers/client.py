@@ -1,15 +1,16 @@
+# import the xmlrpc.client module
 import xmlrpc.client
 
-# Create an XML-RPC server proxy
+# create a proxy object pointing to the XML-RPC server
 proxy = xmlrpc.client.ServerProxy('http://localhost:8000/')
 
-# Define the three numbers
-num1 = int(input("enter 1st number: "))
-num2 = int(input("enter 2nd number: "))
-num3 = int(input("enter 3rd number: "))
+# prompt the user to enter three numbers
+num1 = int(input("Enter 1st number: "))
+num2 = int(input("Enter 2nd number: "))
+num3 = int(input("Enter 3rd number: "))
 
-# Call the remote function to find the greatest number
+# call the remote method on the XML-RPC server to find the greatest number among the three input numbers
 result = proxy.find_greatest(num1, num2, num3)
 
-# Print the result
+# display the result to the user
 print(f"The greatest number is: {result}")
