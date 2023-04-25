@@ -16,4 +16,5 @@ server = xmlrpc.server.SimpleXMLRPCServer(("localhost", 8000))
 server.register_function(is_prime, "is_prime")
 
 # start the server
+print('Server listening on port 8000...')
 server.serve_forever()

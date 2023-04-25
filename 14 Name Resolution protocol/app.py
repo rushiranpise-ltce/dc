@@ -8,6 +8,6 @@ def get_ip_address(url):
   except:
     print("Unable to get hostname and IP")
 # Driver code
-if _name_ == '_main_':
+if __name__ == "__main__" :
   url = "www.twitter.com"
   get_ip_address(url)

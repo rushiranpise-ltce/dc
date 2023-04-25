@@ -68,7 +68,7 @@ def lamportLogicalClock(e1, e2, m) :
 
 # Driver Code
 
-if _name_ == "_main_" :
+if __name__ == "__main__" :
   e1 = 5
   e2 = 3
   m = [[0]*3 for i in range(0,5)]
