@@ -14,10 +14,13 @@ def fib(n):
         list.append(n3)
     return list
 
-# Create an XML-RPC server and register the function
+# create a server instance
 server = xmlrpc.server.SimpleXMLRPCServer(('localhost', 8000))
+
+# register the function fib() with the server and give it a name 'fib'
 server.register_function(fib, 'fib')
 
-# Start the server
 print('Server listening on port 8000...')
+
+# start the server and wait for incoming requests
 server.serve_forever()
