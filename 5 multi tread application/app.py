@@ -1,6 +1,8 @@
+# The code uses threading in Python to compute the factorial and sum of digits of a given number simultaneously
+
 import threading
 
-# Define a class for calculating factorial of a number
+# A class to compute the factorial of a given number
 class FactorialThread(threading.Thread):
     def __init__(self, number):
         threading.Thread.__init__(self)
@@ -12,7 +14,7 @@ class FactorialThread(threading.Thread):
             fact = fact * i
         print("Factorial of {} is {}".format(self.number, fact))
 
-# Define a class for calculating sum of digits of a number
+# A class to compute the sum of digits of a given number
 class SumOfDigitsThread(threading.Thread):
     def __init__(self, number):
         threading.Thread.__init__(self)
@@ -24,7 +26,7 @@ class SumOfDigitsThread(threading.Thread):
             sum_of_digits += int(digit)
         print("Sum of digits of {} is {}".format(self.number, sum_of_digits))
 
-# Create an instance of each thread
+
 number = 12
 factorial_thread = FactorialThread(number)
 sum_of_digits_thread = SumOfDigitsThread(number)
