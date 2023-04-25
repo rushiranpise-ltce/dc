@@ -1,29 +1,40 @@
-import time # import time module  
+import time 
 import threading  
 from threading import *  
-def cal_sqre(num): # define a square calculating function  
+
+def cal_sqre(num): 
     print(" Calculate the square root of the given number")  
-    for n in num: # Use for loop   
-        time.sleep(0.3) # at each iteration it waits for 0.3 time  
+    for n in num:    
+        time.sleep(0.3)   
         print(' Square is : ', n * n)  
   
-def cal_cube(num): # define a cube calculating function  
-    print(" Calculate the cube of  the given number")  
-    for n in num: # for loop  
-        time.sleep(0.3) # at each iteration it waits for 0.3 time  
+def cal_cube(num):   
+    print(" Calculate the cube of the given number")  
+    for n in num:   
+        time.sleep(0.3)   
         print(" Cube is : ", n * n *n)  
   
-ar = [4, 5, 6, 7, 2] # given array  
+ar = [4, 5, 6, 7, 2]   
   
-t = time.time() # get total time to execute the functions  
-#cal_cube(ar)  
-#cal_sqre(ar)  
+t = time.time()   
+
+# Create threads for calculating squares and cubes
 th1 = threading.Thread(target=cal_sqre, args=(ar, ))  
 th2 = threading.Thread(target=cal_cube, args=(ar, ))  
+
+# Start the threads
 th1.start()  
 th2.start()  
+
+# Wait for the threads to finish
 th1.join()  
 th2.join()  
-print(" Total time taking by threads is :", time.time() - t) # print the total time  
-print(" Again executing the main thread")  
-print(" Thread 1 and Thread 2 have finished their execution.")
+
+# Calculate and print the total time taken by threads to execute
+print(" Total time taken by threads is:", time.time() - t) 
+
+# Print a message indicating that the main thread is executing again
+print(" The main thread has resumed execution.") 
+
+# Print a message indicating that both threads have finished executing
+print(" Threads 1 and 2 have finished their execution.")
