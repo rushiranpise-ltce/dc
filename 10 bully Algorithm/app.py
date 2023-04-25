@@ -1,54 +1,53 @@
 import time
 
-class Process:
-    def __init__(self, process_id, num_processes):
+class BullyAlgorithm:
+    def __init__(self, process_id, processes):
         self.process_id = process_id
-        self.coordinator_id = None
-        self.num_processes = num_processes
-        self.is_coordinator = False
+        self.processes = processes
+        self.coordinator = None
 
-    def send_election_message(self):
-        print(f"Process {self.process_id} sends election message to higher priority processes")
-        for i in range(self.process_id + 1, self.num_processes + 1):
-            # send election message to higher priority processes
-            time.sleep(0.5)
-            print(f"Process {self.process_id} sends election message to Process {i}")
-            if i == self.num_processes:
-                self.become_coordinator()
+    def start_election(self):
+        print(f"Process {self.process_id} starts an election")
+        max_id = max(self.processes)
+        if self.process_id == max_id:
+            self.coordinator = self.process_id
+            print(f"Process {self.process_id} is elected as the coordinator")
+        else:
+            higher_processes = [p for p in self.processes if p > self.process_id]
+            for p in higher_processes:
+                try:
+                    print(f"Process {self.process_id} sends an election message to process {p}")
+                    time.sleep(1)
+                    response = self.send_message(p, "election")
+                    if response == "ok":
+                        print(f"Process {p} responded with ok")
+                        continue
+                    else:
+                        print(f"Process {p} did not respond, so Process {self.process_id} starts another election")
+                        self.start_election()
+                        return
+                except:
+                    print(f"Process {p} did not respond, so Process {self.process_id} starts another election")
+                    self.start_election()
+                    return
+            self.coordinator = max(higher_processes)
+            print(f"Process {self.process_id} recognizes Process {self.coordinator} as the coordinator")
 
-    def become_coordinator(self):
-        self.is_coordinator = True
-        self.coordinator_id = self.process_id
-        print(f"Process {self.process_id} becomes coordinator")
+    def send_message(self, process_id, message):
+        if process_id not in self.processes:
+            return "error"
+        if message == "election":
+            return "ok"
+        elif message == "ok":
+            return "ok"
+        elif message == "coordinator":
+            self.coordinator = process_id
+            return "ok"
+        else:
+            return "error"
 
-    def send_coordinator_message(self):
-        print(f"Process {self.process_id} sends coordinator message to other processes")
-        for i in range(1, self.num_processes + 1):
-            if i != self.process_id:
-                # send coordinator message to all other processes
-                time.sleep(0.5)
-                print(f"Process {self.process_id} sends coordinator message to Process {i}")
-
-    def run(self):
-        while True:
-            if self.is_coordinator:
-                # do coordinator tasks
-                time.sleep(1)
-                print(f"Process {self.process_id} is doing coordinator tasks")
-            else:
-                # send election message to higher priority processes
-                self.send_election_message()
-
-            time.sleep(2)
-
-if __name__ == "__main__":
-    num_processes = int(input("Enter the number of processes: "))
-
-    processes = []
-
-    for i in range(1, num_processes + 1):
-        processes.append(Process(i, num_processes))
-
-    # start the processes
-    for process in processes:
-        process.run()
+if __name__ == '__main__':
+    processes = [1, 2, 3, 4, 5]
+    process_id = int(input(f"Enter process ID (from {processes}): "))
+    bully = BullyAlgorithm(process_id, processes)
+    bully.start_election()
